@@ -10,6 +10,8 @@ Note: due to privacy conerns, the server's address is not hard-coded, but refere
 
 It uses Flask for the front-end.
 
+Flask also uses an environment variable named `QFAP_SECRET`.
+
 ## Build
 
 Use 
@@ -17,3 +19,9 @@ Use
     git clone https://github.com/Phaide/Que-faire-a-Paris
 
 To copy the sources on your computer.
+
+In order to launch the project, you will need to install the dependencies with
+
+    pip install -r requirements.txt
+    
+**It is strongly advised to use a virtual environment.**
