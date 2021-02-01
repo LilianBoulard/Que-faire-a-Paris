@@ -4,7 +4,7 @@ import logging
 import dateutil.parser as dp
 
 from time import time
-from typing import List
+from typing import List, Tuple
 
 from .event import Event
 
@@ -104,3 +104,35 @@ class Database:
             'fields.id': str(identifier)
         }
         return Event(self._collection.find_one(query)['fields'])
+
+    @assert_database_and_collection
+    def get_all_categories(self) -> dict:
+        """
+        Gathers all the categories from the database.
+        :return dict: A dictionary containing for each key a main category, and as the value a list of sub-categories.
+        """
+
+        def treat_cat(cat: str) -> Tuple[str, str]:
+            """
+            Takes a category and splits it, returning a tuple containing (1) the main category, (2) the sub-category.
+            :param str cat: A category. e.g: "Musique -> Concert"
+            """
+            main_cat, sub_cat = cat.split('>')
+            main_cat = main_cat.strip('-').strip(' ')
+            sub_cat = sub_cat.strip(' ')
+            return main_cat, sub_cat
+
+        categories = {}
+        for info in self._collection.find():
+            # *Technically* it would be smarter to create an event with each info,
+            # but it's not the most optimized way of doing it.
+            # Here, we will assume `category` is never missing.
+            # If by any mean it is missing, it will raise a KeyError.
+            main_category, sub_category = treat_cat(info['fields']['category'])
+            if main_category in categories.keys():
+                if sub_category not in categories[main_category]:
+                    categories[main_category].append(sub_category)
+            else:
+                categories[main_category] = [sub_category]
+
+        return categories
