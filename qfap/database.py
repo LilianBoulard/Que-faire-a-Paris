@@ -142,5 +142,5 @@ class Database:
         return categories
 
     @assert_database_and_collection
-    def search(self, f: Filter):
+    def search(self, f):
         pass
