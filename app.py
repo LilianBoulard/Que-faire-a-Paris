@@ -11,7 +11,7 @@ import os
 
 import qfap
 
-from flask import Flask, render_template, session
+from flask import Flask, render_template
 
 
 app = Flask(__name__)
@@ -35,7 +35,12 @@ def home():
 @app.route('/event/<identifier>')
 def unique_event(identifier: int):
     event = db.get_unique_event_by_id(identifier)
-    return render_template('event.html', db=db, event=event)
+    return render_template('event.html', db=db, event=event, Filter=qfap.Filter)
+
+
+@app.route('/search')
+def search():
+    return render_template('search.html', db=db, Filter=qfap.Filter)
 
 
 if __name__ == '__main__':
