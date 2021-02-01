@@ -17,7 +17,7 @@ logging_level = logging.DEBUG
 logger = logging.getLogger()
 logger.setLevel(logging_level)
 
-formatter = logging.Formatter('%(asctime)s - [%(levelname)s | %(module)s] %(message)s')
+formatter = logging.Formatter('%(asctime)s - [%(levelname)s] %(message)s')
 formatter.datefmt = '%m/%d/%Y %H:%M:%S'
 
 # fh = logging.FileHandler(filename='C:/Temp/qfap.log', mode='w')
