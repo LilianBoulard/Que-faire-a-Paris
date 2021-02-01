@@ -27,7 +27,7 @@
 							<header>
 								<h3><a href="/event/{{ event.id }}"></a></h3>
 							</header>
-							<p>{{ event.lead_text }}</p>
+							<p>{{ event.get_lead_text_snippet() }}</p>
 						</article>
 						{% endfor %}
 					</div>
