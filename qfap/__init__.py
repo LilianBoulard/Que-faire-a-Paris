@@ -1,10 +1,11 @@
 import sys
 import logging
 
-from .database import Database
 from .event import Event
+from .filter import Filter
+from .database import Database
 
-__all__ = ['Database', 'Event']
+__all__ = ['Event', 'Filter', 'Database']
 
 
 ###########
