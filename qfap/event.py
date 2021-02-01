@@ -1,5 +1,7 @@
 import logging
 
+from typing import Set
+
 
 # Every event should have this structure.
 event_structure = {
@@ -47,9 +49,9 @@ event_structure = {
     'cover_credit': str,  # Source credit
     'url': str,
     'transport': str,
-    'blind': int,  # Accessibility for blind people
     'pmr': int,  # Accessibility for people with reduced mobility
     'deaf': int,  # Accessibility for deaf people
+    'blind': int,  # Accessibility for blind people
 }
 
 
@@ -142,4 +144,14 @@ class Event:
 
     def get_occurrences(self) -> set:
         return set(self.occurrences.split('_'))
+
+    def get_tags(self) -> Set[str]:
+        return set(self.tags.split(';'))
+
+    def get_lead_text_snippet(self, limit: int = 95) -> str:
+        if len(self.lead_text) > limit:
+            snippet = self.lead_text[:limit - 3].strip() + '...'
+        else:
+            snippet = self.lead_text
+        return snippet
 
