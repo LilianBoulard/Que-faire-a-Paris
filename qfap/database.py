@@ -6,6 +6,7 @@ from time import time
 from typing import List, Tuple
 
 from .event import Event
+from .filter import Filter
 from .utils import convert_iso8601_to_timestamp
 
 
@@ -77,7 +78,14 @@ class Database:
         self._collection = self._db.get_collection(collection_name)
 
     @assert_database_and_collection
-    def get_coming_x_events_by_category(self, num: int) -> List[Event]:
+    def get_coming_x_events_by_category(self, num: int, category: str) -> List[Event]:
+        """
+        Queries the database to get the nearest incoming `num` events in the category specified.
+
+        :param int num: How many events we want to list.
+        :param str category: The category to search in. e.g: "Concerts -> Jazz"
+        :return List[Event]: A list containing the Events, ordered from the closest to the most distant (in time).
+        """
         pass
 
     @assert_database_and_collection
@@ -142,5 +150,14 @@ class Database:
         return categories
 
     @assert_database_and_collection
-    def search(self, f):
-        pass
+    def search(self, f: Filter, limit: int = 0) -> List[Event]:
+        """
+        Searches the database using a filter.
+
+        :param Filter f: The Filter instance to use.
+        :param int limit: The maximum number of items we want to return.
+        :return list: List of events if some were found, empty otherwise.
+        """
+        query = f.forge_query()
+        returned_events = self._collection.find(query).limit(limit)
+        return [Event(info['fields']) for info in returned_events]
