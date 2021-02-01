@@ -12,21 +12,14 @@
 		<div id="page-wrapper">
 
 			<!-- Header -->
+            {% if request.endpoint == "home" %}
 				<div id="header">
-
-					<!-- Inner -->
-						<div class="inner">
-							<header>
-								<h1><a id="logo">Que faire à Paris ?</a></h1>
-								<hr />
-								<p>Le répertoire des activités d'Île-de-France</p>
-							</header>
-							<footer>
-								<a href="#banner" class="button circled scrolly">QFAP ?!</a>
-							</footer>
-						</div>
+            {% else %}
+                <div id="header" style="height: 0px; padding: 2.5em 0 2em 0; min-height: 0cm">
+            {% endif %}
 
 					<!-- Nav -->
+                    {% block nav %}
 						<nav id="nav">
 							<ul>
 								<li><a href="/">Accueil</a></li>
@@ -53,9 +46,26 @@
 								<li><a href="no-sidebar.html">No Sidebar</a></li>
 							</ul>
 						</nav>
-
+                    {% endblock %}
+                    <!-- Inner -->
+                    {% block banner %}
+                        {% if request.endpoint == "home" %}
+                            <div class="inner">
+                                <header>
+                                    <h1><a id="logo">Que faire à Paris ?</a></h1>
+                                    <hr />
+                                    <p>Le répertoire des activités d'Île-de-France</p>
+                                </header>
+                                <footer>
+                                    <a href="#banner" class="button circled scrolly">QFAP ?!</a>
+                                </footer>
+                            </div>
+                        {% endif %}
+                    {% endblock %}
                 </div>
                 
         </div>
     </body>
+    {% block body %}
+    {% endblock %}
 </html>
