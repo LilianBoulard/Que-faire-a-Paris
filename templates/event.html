@@ -2,6 +2,29 @@
 
 <html>
 	{% include "base.html" %}
+	<script>
+      // Initialize and add the map
+      function initMap() {
+        // The location of place
+        const place = { lat: {{event.lat_lon[0] }}, lng: {{event.lat_lon[1] }} };
+        // The map, centered at place
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 17,
+          center: place,
+        });
+        // The marker, positioned at place
+        const marker = new google.maps.Marker({
+          position: place,
+		  gestureHandling: "none",
+          map: map,
+        });
+      }
+    </script> 
+	<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2QOuSnXRtD91JMxnQx7WdelgH8tVRVtk&callback=initMap&libraries=&v=weekly"
+      defer
+    ></script>
+
 	<body>
 			<!-- Main -->
 				<div class="wrapper style1">
@@ -19,6 +42,16 @@
 								<!--safe, escape the HTML string -->
 								{{ event.description|safe }}
 							</p>
+							<!-- map -->
+							<div>
+								<h1>Quand ?</h1>
+								{{event.date_description|safe}}
+								<h1>Où ?</h1>
+								<p>Transports les plus proches:<br/>
+								{{event.transport}}
+								</p>
+								<div id="map" style="height: 400px;width: 50%;margin: 0.3cm 0"></div>
+							</div>
 						</article>
 						<hr />
 						<div class="row">
