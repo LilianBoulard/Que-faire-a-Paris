@@ -20,6 +20,9 @@
 					<div class="reel">
 						{% for event in db.get_coming_x_events(10) -%}
 						<article>
+							<div style="min-height: 1cm; padding:0.2cm">
+								<h1>{{event.title}}</h1>
+							</div>
 							<a href="/event/{{ event.id }}" class="image featured"><img src="{{ event.cover_url }}" alt="{{ event.cover_alt }}" /></a>
 							<header>
 								<h3><a href="/event/{{ event.id }}"></a></h3>
