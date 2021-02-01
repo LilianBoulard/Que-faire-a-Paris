@@ -6,7 +6,6 @@ from time import time
 from typing import List, Tuple
 
 from .event import Event
-from .filter import Filter
 from .utils import convert_iso8601_to_timestamp
 
 
