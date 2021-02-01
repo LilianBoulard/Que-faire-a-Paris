@@ -1,12 +1,13 @@
 import os
 import pymongo
 import logging
-import dateutil.parser as dp
 
 from time import time
 from typing import List, Tuple
 
 from .event import Event
+from .filter import Filter
+from .utils import convert_iso8601_to_timestamp
 
 
 def assert_database(func):
@@ -77,6 +78,10 @@ class Database:
         self._collection = self._db.get_collection(collection_name)
 
     @assert_database_and_collection
+    def get_coming_x_events_by_category(self, num: int) -> List[Event]:
+        pass
+
+    @assert_database_and_collection
     def get_coming_x_events(self, num: int) -> List[Event]:
         """
         Queries the database to get the nearest incoming `num` events.
@@ -90,7 +95,7 @@ class Database:
         current_dt = int(time())
         for info in self._collection.find():
             info = info['fields']
-            info_dt = dp.parse(info[criteria]).timestamp()
+            info_dt = convert_iso8601_to_timestamp(info[criteria])
             if info_dt > current_dt:
                 future_events.append(info)
 
@@ -136,3 +141,7 @@ class Database:
                 categories[main_category] = [sub_category]
 
         return categories
+
+    @assert_database_and_collection
+    def search(self, f: Filter):
+        pass
