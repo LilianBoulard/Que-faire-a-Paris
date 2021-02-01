@@ -9,12 +9,12 @@
 					<div class="container">
 						<article id="main" class="special">
 							<header>
-								<h2><a href="#">{{ event.title }}</a></h2>
+								<h2>{{ event.title }}</h2>
 								<p>
 									{{ event.lead_text }}
 								</p>
 							</header>
-							<a href="#" class="image featured"><img src="{{ event.cover_url }}" alt="{{ event.cover_alt }}" /></a>
+							<img src="{{ event.cover_url }}" height="300" alt="{{ event.cover_alt }}" style="display: block; margin-left: auto; margin-right: auto;" />
 							<p>
 								<!--safe, escape the HTML string -->
 								{{ event.description|safe }}
