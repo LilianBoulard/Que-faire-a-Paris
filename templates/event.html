@@ -64,7 +64,8 @@
 							</header>
 							<a href="#" class="image featured"><img src="{{ event.cover_url }}" alt="{{ event.cover_alt }}" /></a>
 							<p>
-								{{ event.description }}
+								<!--safe, escape the HTML string -->
+								{{ event.description|safe }}
 							</p>
 						</article>
 						<hr />
