@@ -39,7 +39,7 @@ class Database:
         self.cache = Cache(self._db, self._collection)
 
         for info in self._collection.find():
-            self.cache.compute_and_store_unix_timestamps(info)
+            # self.cache.compute_and_store_unix_timestamps(info)
             self.cache.store_category(info)
 
     def set_random_state(self, random_state: int):
@@ -146,7 +146,7 @@ class Cache:
         self._db = db
         self._collection = collection
 
-        self.time_db = self._get_db('time')
+        # self.time_db = self._get_db('time')
         self.categories_db = self._get_db('cats')
 
     def _empty_cache(self):
