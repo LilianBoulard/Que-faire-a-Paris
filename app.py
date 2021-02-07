@@ -24,9 +24,6 @@ if not secret:
 app.secret_key = secret.encode()
 
 
-db = qfap.Database(database_name='QFAP', collection_name='dataset')
-
-
 @app.route('/')
 def home():
     return render_template('index.html', db=db)
@@ -44,4 +41,5 @@ def search():
 
 
 if __name__ == '__main__':
+    db = qfap.Database(database_name='QFAP', collection_name='dataset')
     app.run(debug=True)
