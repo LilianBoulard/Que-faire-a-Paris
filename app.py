@@ -26,7 +26,7 @@ app.secret_key = secret.encode()
 
 @app.route('/')
 def home():
-    upcoming_event = db.get_coming_events(1)
+    upcoming_event = db.get_coming_events(1)[0]
     return render_template('index.html', db=db, upcoming_event=upcoming_event)
 
 
