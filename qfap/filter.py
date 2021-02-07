@@ -20,7 +20,7 @@ class Filter:
         """
         :param bool global_operator: Operator to use on all queries. True for "and", False for "or".
         :param str text_filter: Filter used on the description and the title.
-        :param str price_type: Price type as a boolean: False for "gratuit", True for "payant".
+        :param bool price_type: Price type as a boolean: False for "gratuit", True for "payant".
         :param str category: The category it classifies in. e.g: "Concerts -> Folk"
         :param list tags: A list of tags.
         :param bool tags_operator: Operator to use on the tags, True for "and", False for "or".
@@ -133,7 +133,16 @@ class Filter:
     def forge_query(self) -> dict:
         queries = []
 
-        if self._tags is not None:  # We explicit "is not None" because some values are boolean.
+        if self._text_filter is not None:  # We explicit "is not None" because some values are boolean.
+            queries.append(self.text_filter())
+
+        if self._price_type is not None:
+            queries.append(self.price_type())
+
+        if self._category is not None:
+            queries.append(self.category())
+
+        if self._tags is not None:
             queries.append(self.tags())
 
         if self._pmr is not None:
