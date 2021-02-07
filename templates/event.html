@@ -43,6 +43,7 @@
 								{{ event.description|safe }}
 							</p>
 							<!-- map -->
+							
 							<div>
 								<h1>Quand ?</h1>
 								{{ event.date_description|safe }}
@@ -51,7 +52,9 @@
 									Transports les plus proches:<br/>
 									{{ event.transport }}
 								</p>
+								{% if event.lat_lon %}
 								<div id="map" style="height: 400px;width: 50%;margin: 0.3cm 0"></div>
+								{% endif %}
 							</div>
 						</article>
 						<hr />
