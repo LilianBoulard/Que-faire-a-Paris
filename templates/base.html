@@ -29,10 +29,10 @@
 									<ul>
 										{% for (main_category, sub_category) in db.cache.get_all_categories().items() -%}
 										<li>
-											<a href="#">{{ main_category }} &hellip;</a>
+											<a>{{ main_category }}&hellip;</a>
 											<ul>
 												{% for cat in sub_category -%}
-												<li><a href="#">{{ cat }}</a></li>
+												<li><a href="/search?search=&category={{ main_category }} -> {{ cat }}&price_type=1">{{ cat }}</a></li>
 												{% endfor %}
 											</ul>
 										</li>
