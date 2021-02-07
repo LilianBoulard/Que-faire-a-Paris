@@ -26,72 +26,49 @@
 								</section>
 								<hr />
 								-->
-								<section>
+								<div>
 									<header>
 										<h3>Critères de recherche</h3>
 									</header>
 									<p>
 										Utilisez les paramètres ci-dessous pour définir des filtres, puis appliquez-les avec le bouton plus bas.
 									</p>
-									<div class="row gtr-50">
-										<div class="col-4">
-											<a href="#" class="image fit"><img src="/static/images/pic10.jpg" alt="" /></a>
-										</div>
-										<div class="col-8">
-											<h4>Nibh sed cubilia</h4>
-											<p>
-												Amet nullam fringilla nibh nulla convallis tique ante proin.
-											</p>
-										</div>
-										<div class="col-4">
-											<a href="#" class="image fit"><img src="/static/images/pic11.jpg" alt="" /></a>
-										</div>
-										<div class="col-8">
-											<h4>Proin sed adipiscing</h4>
-											<p>
-												Amet nullam fringilla nibh nulla convallis tique ante proin.
-											</p>
-										</div>
-										<div class="col-4">
-											<a href="#" class="image fit"><img src="/static/images/pic12.jpg" alt="" /></a>
-										</div>
-										<div class="col-8">
-											<h4>Lorem feugiat magna</h4>
-											<p>
-												Amet nullam fringilla nibh nulla convallis tique ante proin.
-											</p>
-										</div>
-										<div class="col-4">
-											<a href="#" class="image fit"><img src="/static/images/pic13.jpg" alt="" /></a>
-										</div>
-										<div class="col-8">
-											<h4>Sed tempus fringilla</h4>
-											<p>
-												Amet nullam fringilla nibh nulla convallis tique ante proin.
-											</p>
-										</div>
-										<div class="col-4">
-											<a href="#" class="image fit"><img src="/static/images/pic14.jpg" alt="" /></a>
-										</div>
-										<div class="col-8">
-											<h4>Malesuada fermentum</h4>
-											<p>
-												Amet nullam fringilla nibh nulla convallis tique ante proin.
-											</p>
-										</div>
-                                        <footer>
-                                            <a class="button" href="">Appliquer les filtres</a>
-                                        </footer>
-									</div>
-								</section>
+									<form method="get" action="/search">
+										<label for="search">Rechercher dans le titre ou la description:</label>
+										<input type="text" id="search" name="search" />
+										<label for="category">Catégorie</label>
+										<select id="category" name="category">
+											<option></option>
+											{% for main_category, v in db.cache.get_all_categories().items() -%}
+												{% for sub_category in v -%}
+													{% set category = main_category + ' -> ' + sub_category %}
+													<option value="{{ category }}">{{ category }}</option>
+												{% endfor %}
+											{% endfor %}
+										</select>
+										<label for="future">Événements à venir uniquement</label>
+										<input type="checkbox" id="future" name="future" value="1" />
+										<h3>Prix</h3>
+										<label for="price_type">Payant</label>
+										<input type="checkbox" id="price_type" name="price_type" value="1" checked="1" />
+										<h3>Support pour les handicaps</h3>
+										<label for="pmr">Personnes à mobilité réduite</label>
+										<input type="checkbox" id="pmr" name="pmr" value="1" />
+										<label for="blind">Malvoyants</label>
+										<input type="checkbox" id="blind" name="blind" value="1" />
+										<label for="deaf">Malentendants</label>
+										<input type="checkbox" id="deaf" name="deaf" value="1" />
+										<input type="reset" />
+                                        <input type="submit" />
+									</form>
+								</div>
 							</div>
 							<div class="col-8 col-12-mobile imp-mobile" id="content">
 								<section>
 									<header>
 										<h3>Résultats de la recherche</h3>
 									</header>
-                                    {% set f = Filter() %}
-                                    {% for event in db.search(f, limit=5) -%}
+                                    {% for event in db.search(db.create_filter_from_args(request.args), limit=15) -%}
 									<div class="row gtr-50">
 										<div class="col-4">
 											<a href="/event/{{ event.id }}" class="image fit"><img src="{{ event.cover_url }}" alt="{{ event.cover_alt }}" /></a>

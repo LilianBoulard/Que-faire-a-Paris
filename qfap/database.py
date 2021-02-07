@@ -119,6 +119,34 @@ class Database:
     def get_unique_event_by_id(self, identifier: int) -> Event:
         return Event(self._collection.find_one({'fields.id': str(identifier)})['fields'])
 
+    def create_filter_from_args(self, args: dict) -> Filter:
+        """
+        Takes the arguments of a Flask request, and returns a corresponding Filter.
+        """
+        keys = args.keys()
+        filter_args = {}
+
+        if 'search' in keys:
+            filter_args.update({"text_filter": args.get('search')})
+        if 'category' in keys:
+            if not args.get('category') == "":
+                filter_args.update({"category": args.get('category')})
+        if 'price_type' in keys:
+            filter_args.update({"price_type": False if args.get('price_type') == '1' else True})
+        if 'future' in keys:
+            pass
+
+        if 'pmr' in keys:
+            filter_args.update({"pmr": 1})
+        if 'blind' in keys:
+            filter_args.update({"blind": 1})
+        if 'deaf' in keys:
+            filter_args.update({"deaf": 1})
+
+        f = Filter(**filter_args)
+        logging.debug(f'{vars(f)=}')
+        return f
+
     def search(self, f: Filter, limit: int = 0) -> List[Event]:
         """
         Searches the database using a filter.
