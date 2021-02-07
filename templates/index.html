@@ -18,16 +18,18 @@
 			<!-- Carousel -->
 				<section class="carousel">
 					<div class="reel">
-						{% for event in db.get_coming_x_events(10) -%}
+						{% for e in db.get_coming_events(25) -%}
 						<article>
 							<div style="min-height: 1cm; padding:0.2cm">
-								<h1>{{event.title}}</h1>
+								<h1>{{ e.title }}</h1>
 							</div>
-							<a href="/event/{{ event.id }}" class="image featured"><img src="{{ event.cover_url }}" alt="{{ event.cover_alt }}" /></a>
+							<a class="image centered featured" href="/event/{{ e.id }}">
+								<img src="{{ e.cover_url }}" alt="{{ e.cover_alt }}" width="350px" height="350px" style="max-height: 75%; max-width: 90%;" />
+							</a>
 							<header>
-								<h3><a href="/event/{{ event.id }}"></a></h3>
+								<h3><a href="/event/{{ e.id }}"></a></h3>
 							</header>
-							<p>{{ event.get_lead_text_snippet() }}</p>
+							<p>{{ e.get_lead_text_snippet() }}</p>
 						</article>
 						{% endfor %}
 					</div>

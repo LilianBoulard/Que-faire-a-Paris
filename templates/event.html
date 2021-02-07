@@ -37,7 +37,7 @@
 									{{ event.lead_text }}
 								</p>
 							</header>
-							<img src="{{ event.cover_url }}" height="300" alt="{{ event.cover_alt }}" style="display: block; margin-left: auto; margin-right: auto;" />
+							<img src="{{ event.cover_url }}" alt="{{ event.cover_alt }}" style="display: block; margin-left: auto; margin-right: auto; max-width: 100%;" />
 							<p>
 								<!--safe, escape the HTML string -->
 								{{ event.description|safe }}
@@ -45,21 +45,24 @@
 							<!-- map -->
 							<div>
 								<h1>Quand ?</h1>
-								{{event.date_description|safe}}
+								{{ event.date_description|safe }}
 								<h1>Où ?</h1>
-								<p>Transports les plus proches:<br/>
-								{{event.transport}}
+								<p>
+									Transports les plus proches:<br/>
+									{{ event.transport }}
 								</p>
 								<div id="map" style="height: 400px;width: 50%;margin: 0.3cm 0"></div>
 							</div>
 						</article>
 						<hr />
 						<div class="row">
-                            {% for e in db.get_coming_x_events(3) -%}
+                            {% for e in db.get_random_coming_events_by_category(3, event.category, event.id) -%}
 							<article class="col-4 col-12-mobile special">
-								<a href="/event/{{ e.id }}" class="image featured"><img src="{{ e.cover_url }}" alt="{{ e.cover_url }}" /></a>
+								<a class="image centered" href="/event/{{ e.id }}">
+									<img class="image centered" src="{{ e.cover_url }}" alt="{{ e.cover_url }}" width="350px" height="350px" style="max-height: 75%; max-width: 90%;" />
+								</a>
 								<header>
-									<h3><a href="#">{{ e.title }}</a></h3>
+									<h3><a href="/event/{{ e.id }}">{{ e.title }}</a></h3>
 								</header>
 								<p>
 									{{ e.lead_text }}
