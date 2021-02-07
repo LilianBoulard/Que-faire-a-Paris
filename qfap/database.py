@@ -42,9 +42,6 @@ class Database:
             # self.cache.compute_and_store_unix_timestamps(info)
             self.cache.store_category(info)
 
-    def set_random_state(self, random_state: int):
-        random.seed(random_state)
-
     def _select_database(self, db_name: str) -> None:
         """
         Select instance's database.
@@ -144,7 +141,6 @@ class Database:
             filter_args.update({"deaf": 1})
 
         f = Filter(**filter_args)
-        logging.debug(f'{vars(f)=}')
         return f
 
     def search(self, f: Filter, limit: int = 0) -> List[Event]:
