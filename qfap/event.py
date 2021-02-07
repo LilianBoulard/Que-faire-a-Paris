@@ -142,9 +142,6 @@ class Event:
         for key, value in attr.items():
             self.__setattr__(key, value)
 
-    def get_occurrences(self) -> set:
-        return set(self.occurrences.split('_'))
-
     def get_tags(self) -> Set[str]:
         return set(self.tags.split(';'))
 
