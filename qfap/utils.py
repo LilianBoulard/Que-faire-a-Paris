@@ -1,7 +1,5 @@
 import json
 
-import dateutil.parser as dp
-
 
 def encode_json(dictionary: dict) -> str:
     """
@@ -21,7 +19,3 @@ def decode_json(json_string: str) -> dict:
     :return dict: An unverified dictionary. Do not trust this data.
     """
     return json.JSONDecoder().decode(json_string)
-
-
-def convert_iso8601_to_timestamp(iso: str) -> int:
-    return int(dp.parse(iso).timestamp())
