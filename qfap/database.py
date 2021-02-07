@@ -9,7 +9,6 @@ from typing import List, Set
 
 from .event import Event
 from .filter import Filter
-from .utils import convert_iso8601_to_timestamp
 
 
 class Database:
@@ -39,7 +38,6 @@ class Database:
         self.cache = Cache(self._db, self._collection)
 
         for info in self._collection.find():
-            # self.cache.compute_and_store_unix_timestamps(info)
             self.cache.store_category(info)
 
     def _select_database(self, db_name: str) -> None:
@@ -71,15 +69,12 @@ class Database:
         self._collection: pymongo.collection.Collection = self._db.get_collection(collection_name)
 
     def get_future_events(self, additional_filter: dict = None) -> List[Event]:
-        future_events = []
         current_time = int(time())
         if not additional_filter:
             additional_filter = {}
-        for info in self._collection.find(additional_filter, {'fields': 1}):
-            info = info['fields']
-            if convert_iso8601_to_timestamp(info['date_start']) > current_time:
-                future_events.append(info)
-        return [Event(info) for info in future_events]
+        additional_filter.update({'fields.date_start': {'$gt': current_time}})
+        future_events = self._collection.find(additional_filter, {'fields': 1})
+        return [Event(info['fields']) for info in future_events]
 
     def get_future_events_by_category(self, category: str) -> List[Event]:
         return self.get_future_events({'fields.category': category})
@@ -170,7 +165,6 @@ class Cache:
         self._db = db
         self._collection = collection
 
-        # self.time_db = self._get_db('time')
         self.categories_db = self._get_db('cats')
 
     def _empty_cache(self):
@@ -195,37 +189,6 @@ class Cache:
         db = shelve.open(db_path)
         logging.info(f'Opened cache file {db_path!r}')
         return db
-
-    ###########################
-    # UNIX TIMESTAMPS SECTION #
-    ###########################
-
-    def compute_and_store_unix_timestamps(self, info):
-        """
-        Computes unix timestamps and stores them.
-        """
-        identifier = info['fields']['id']
-        cache_info = {}
-
-        cache_info.update({'date_start': convert_iso8601_to_timestamp(info['fields']['date_start'])})
-        cache_info.update({'date_end': convert_iso8601_to_timestamp(info['fields']['date_end'])})
-        cache_info.update({'updated_at': convert_iso8601_to_timestamp(info['fields']['updated_at'])})
-
-        # Very dirty way of doing a double-split.
-        temp_occurrences = info['fields']['occurrences'].split(';')
-        occurrences = []
-        for temp_occurrence in temp_occurrences:
-            for occurrence in temp_occurrence.split('_'):
-                occurrences.append(occurrence)
-
-        cache_occurrences = [convert_iso8601_to_timestamp(occ) for occ in occurrences]
-        cache_info.update({'occurrences': cache_occurrences})
-
-        self.time_db.update({identifier: cache_info})
-        self.time_db.sync()
-
-    def get_timestamps(self, identifier: str) -> dict:
-        return self.time_db.get(identifier)
 
     ######################
     # CATEGORIES SECTION #
