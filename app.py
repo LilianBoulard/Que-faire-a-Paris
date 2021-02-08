@@ -41,6 +41,7 @@ def search():
     return render_template('search.html', db=db, Filter=qfap.Filter)
 
 
+db = qfap.Database(database_name='QFAP', collection_name='dataset')
+
 if __name__ == '__main__':
-    db = qfap.Database(database_name='QFAP', collection_name='dataset')
     app.run(debug=True)
