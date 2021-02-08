@@ -115,7 +115,7 @@ class Database:
         """
         Takes the arguments of a Flask request, and returns a corresponding Filter.
         """
-        keys = args.keys()
+        keys = set(args.keys())
         filter_args = {}
 
         if 'search' in keys:
@@ -125,8 +125,6 @@ class Database:
                 filter_args.update({"category": args.get('category')})
         if 'price_type' in keys:
             filter_args.update({"price_type": False if args.get('price_type') == '1' else True})
-        if 'future' in keys:
-            pass
 
         if 'pmr' in keys:
             filter_args.update({"pmr": 1})
@@ -135,6 +133,7 @@ class Database:
         if 'deaf' in keys:
             filter_args.update({"deaf": 1})
 
+        logging.debug(filter_args)
         f = Filter(**filter_args)
         return f
 
