@@ -151,8 +151,13 @@ class Database:
         return [Event(info['fields']) for info in returned_events]
 
     def get_occurrences(self, identifier: str) -> Set[int]:
-        timestamps = self.cache.get_timestamps(identifier)
-        return set(timestamps['occurrences'])
+        """
+        :param str identifier: The unique ID of the event.
+        :return Set[int]: Occurrences of the event, as a list of Unix timestamps
+        """
+        info = self._collection.find_one({'fields.id': identifier})
+        event = Event(info['fields'])
+        return event.occurrences
 
 
 class Cache:
@@ -160,6 +165,7 @@ class Cache:
     cache_folder: str = '.cache/qfap/'
 
     def __init__(self, db, collection):
+        self.create_cache_dir()
         self._empty_cache()
 
         self._db = db
@@ -167,7 +173,16 @@ class Cache:
 
         self.categories_db = self._get_db('cats')
 
-    def _empty_cache(self):
+    def create_cache_dir(self) -> None:
+        """
+        Creates the cache directory.
+        """
+        try:
+            os.makedirs(self.cache_folder)
+        except FileExistsError:
+            pass
+
+    def _empty_cache(self) -> None:
         # Removes all the files contained in the cache folder
         for fl in os.listdir(self.cache_folder):
             os.remove(os.path.join(self.cache_folder, fl))
@@ -175,17 +190,13 @@ class Cache:
     def _get_db(self, db_name: str) -> shelve.DbfilenameShelf:
         """
         Gets the database specified.
-        Creates it with the tree structure if not already there.
+        Creates it if not present.
+        Needs for the directory to exist.
 
         :param str db_name: The database name (the file name).
         :return shelve.DbfilenameShelf:
         """
         db_path = os.path.join(self.cache_folder, db_name)
-        sep = '/'
-        try:
-            os.makedirs(sep.join(db_path.split(sep)[:-1]))
-        except FileExistsError:
-            pass
         db = shelve.open(db_path)
         logging.info(f'Opened cache file {db_path!r}')
         return db
