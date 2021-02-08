@@ -47,14 +47,13 @@
 						<p>
 							{{ upcoming_event.description|safe }}
 						</p>
-						<div style="font-size: 40px;margin-top: 0px;">
+						<footer><a href="/event/{{ upcoming_event.id }}" class="button">
+							<p id="desc" style="display: inline;">Temps restant:</p>
 							<p id="days" style="display: inline;"></p>
 							<p id="hours" style="display: inline;"></p>
 							<p id="mins" style="display: inline;"></p>
 							<p id="secs" style="display: inline;"></p>
-							<h2 id="end"></h2>
-						</div>
-						<footer>
+							<h2 id="end"></h2></a>
 							<a href="/event/{{ upcoming_event.id }}" class="button">Plus d'informations</a>
 						</footer>
 					</article>
@@ -274,10 +273,10 @@
 					
 				// Result is output to the specific element
 				//document.getElementById("debug").innerHTML = timeleft + "debug "
-				document.getElementById("days").innerHTML = days + "d "
-				document.getElementById("hours").innerHTML = hours + "h " 
-				document.getElementById("mins").innerHTML = minutes + "m " 
-				document.getElementById("secs").innerHTML = seconds + "s " 
+				document.getElementById("days").innerHTML = days + "jour(s) "
+				document.getElementById("hours").innerHTML = hours + "h" 
+				document.getElementById("mins").innerHTML = minutes + "m" 
+				document.getElementById("secs").innerHTML = seconds + "s" 
 					
 				// Display the message when countdown is over
 				if (timeleft < 0) {
@@ -286,7 +285,7 @@
 					document.getElementById("hours").innerHTML = "" 
 					document.getElementById("mins").innerHTML = ""
 					document.getElementById("secs").innerHTML = ""
-					document.getElementById("end").innerHTML = "TIME UP!!";
+					document.getElementById("end").innerHTML = "L'évènement est malheureusement terminé !";
 				}
 				}, 1000);
 				</script>
