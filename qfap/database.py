@@ -133,7 +133,6 @@ class Database:
         if 'deaf' in keys:
             filter_args.update({"deaf": 1})
 
-        logging.debug(filter_args)
         f = Filter(**filter_args)
         return f
 
