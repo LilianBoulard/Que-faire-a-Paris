@@ -257,13 +257,14 @@
 			<script src="/static/assets/js/main.js"></script>
 			<script>
 				// The data/time we want to countdown to
-				var countDownDate = new Date("{{ upcoming_event.date_end }}").getTime();
+				var countDownDate = new Date("{{ upcoming_event.date_end }}"*1000).toISOString()
+				//var countDownDate = parseDate.toISOString();
 			
 				// Run myfunc every second
 				var myfunc = setInterval(function() {
 			
 				var now = new Date().getTime();
-				var timeleft = countDownDate - now;
+				var timeleft = {{ upcoming_event.date_end }}*1000 - now;
 					
 				// Calculating the days, hours, minutes and seconds left
 				var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
@@ -272,6 +273,7 @@
 				var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
 					
 				// Result is output to the specific element
+				//document.getElementById("debug").innerHTML = timeleft + "debug "
 				document.getElementById("days").innerHTML = days + "d "
 				document.getElementById("hours").innerHTML = hours + "h " 
 				document.getElementById("mins").innerHTML = minutes + "m " 
