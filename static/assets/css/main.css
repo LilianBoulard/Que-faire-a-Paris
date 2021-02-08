@@ -2843,6 +2843,21 @@ input, select, textarea {
 
 		/* Button */
 
+            input[type="checkbox"] {
+                display: none;
+            }
+            input[type="checkbox"] + label {
+                display: inline-block;
+                border: 1px solid #000;
+                width: 30px;
+                height: 30px;
+                position: relative;
+            }
+            input[type="checkbox"]:checked + label:after {
+                content: '✔';
+                display: inline-block;
+                font-size: 1.6em;
+            }
 			input[type="button"],
 			input[type="submit"],
 			input[type="reset"],
