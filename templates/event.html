@@ -25,6 +25,10 @@
       defer
     ></script>
 
+	<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='../static/assets/css/event.css') }}">
+  	</head>
+
 	<body>
 			<!-- Main -->
 				<div class="wrapper style1">
@@ -43,6 +47,37 @@
 								{{ event.description|safe }}
 							</p>
 							<!-- map -->
+
+							<div class="infos">
+								<div class="pycto">
+
+								<!-- Création des div de pyctogramme si la valeur est 0 dans la base -->
+
+										{% if event.blind == 0 %}
+											<div class="blind">
+												{% block blind %}
+												<i class="fas fa-eye-slash"></i>
+												{% endblock blind %}
+												</div>
+											{% endif %}
+
+											{% if event.pmr == 0 %}
+												<div class="pmr">
+													{% block pmr %}
+													<i class="fab fa-accessible-icon"></i>
+													{% endblock pmr %}
+												</div>
+											{% endif %}
+
+											{% if event.deaf == 0 %}
+												<div class="deaf">
+													{% block deaf %}
+													<i class="fas fa-deaf"></i>
+													{% endblock deaf %}
+												</div>
+											{% endif %}
+								</div>
+							</div>
 							
 							<div>
 								<h1>Quand ?</h1>
