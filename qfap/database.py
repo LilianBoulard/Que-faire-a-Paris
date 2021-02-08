@@ -151,8 +151,13 @@ class Database:
         return [Event(info['fields']) for info in returned_events]
 
     def get_occurrences(self, identifier: str) -> Set[int]:
-        timestamps = self.cache.get_timestamps(identifier)
-        return set(timestamps['occurrences'])
+        """
+        :param str identifier: The unique ID of the event.
+        :return Set[int]: Occurrences of the event, as a list of Unix timestamps
+        """
+        info = self._collection.find_one({'fields.id': identifier})
+        event = Event(info['fields'])
+        return event.occurrences
 
 
 class Cache:
