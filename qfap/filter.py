@@ -156,7 +156,7 @@ class Filter:
 
         query = self.aggregate_all_queries(queries)
         if query is not None:
-            logging.debug(f'{query=}')
+            #logging.debug(f'{query=}')
             return decode_json(query)
         else:
             return {}
