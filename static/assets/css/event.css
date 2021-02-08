@@ -2,6 +2,8 @@
   display: flex;
   margin-bottom: 1.5em;
   opacity: 90%;
+  justify-content: center;
+  margin-top: 1.5em;
 }
 
 .blind {
@@ -28,4 +30,33 @@
   text-align: center;
   color: white;
   border-radius: 15px;
+}
+
+.contact {
+  display: flex;
+  margin-bottom: 1.5em;
+  opacity: 90%;
+}
+
+.phone {
+  flex: 0.05 0.05 auto;
+  background-color: #2b252c;
+  text-align: center;
+  color: white;
+  border-radius: 15px;
+  opacity: 90%;
+}
+
+.mail {
+  flex: 0.05 0.05 auto;
+  background-color: #2b252c;
+  text-align: center;
+  color: white;
+  border-radius: 15px;
+  opacity: 90%;
+}
+
+.communication {
+  display: flex;
+  justify-content: space-evenly;
 }

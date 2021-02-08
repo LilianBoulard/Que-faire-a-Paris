@@ -42,43 +42,54 @@
 								</p>
 							</header>
 							<img src="{{ event.cover_url }}" alt="{{ event.cover_alt }}" style="display: block; margin-left: auto; margin-right: auto; max-width: 100%;" />
-							<p>
-								<!--safe, escape the HTML string -->
-								{{ event.description|safe }}
-							</p>
-							<!-- map -->
 
 							<div class="infos">
 								<div class="pycto">
 
 								<!-- Création des div de pyctogramme si la valeur est 0 dans la base -->
 
-										{% if event.blind == 0 %}
-											<div class="blind">
-												{% block blind %}
+											{% if event.blind == 1 %}
+												<div class="blind">
 												<i class="fas fa-eye-slash"></i>
-												{% endblock blind %}
 												</div>
 											{% endif %}
 
-											{% if event.pmr == 0 %}
+											{% if event.pmr == 1 %}
 												<div class="pmr">
-													{% block pmr %}
 													<i class="fab fa-accessible-icon"></i>
-													{% endblock pmr %}
 												</div>
 											{% endif %}
 
-											{% if event.deaf == 0 %}
+											{% if event.deaf == 1 %}
 												<div class="deaf">
-													{% block deaf %}
 													<i class="fas fa-deaf"></i>
-													{% endblock deaf %}
 												</div>
 											{% endif %}
 								</div>
 							</div>
-							
+
+							<p>
+								<!--safe, escape the HTML string -->
+								{{ event.description|safe }}
+							</p>
+							<!-- map -->
+
+							<div class="communication">
+									{% if event.contact_phone != "" %}
+										<div class="phone">
+											<i class="fas fa-phone"></i>
+											{{ event.contact_phone }}
+										</div>
+									{% endif %}
+
+									{% if event.contact_mail != "" %}
+										<div class="mail">
+											<i class="far fa-envelope"></i>
+											{{ event.contact_mail }}
+										</div>
+									{% endif %}
+							</div>
+
 							<div>
 								<h1>Quand ?</h1>
 								{{ event.date_description|safe }}
@@ -87,10 +98,19 @@
 									Transports les plus proches:<br/>
 									{{ event.transport }}
 								</p>
+								<h1>Tags</h1>
+								<p>
+									{% for element in event.get_tags() -%}
+									<div>
+									{{ element }}
+									</div>
+									{% endfor %}
+								</p>
 								{% if event.lat_lon %}
 								<div id="map" style="height: 400px;width: 50%;margin: 0.3cm 0"></div>
 								{% endif %}
 							</div>
+
 						</article>
 						<hr />
 						<div class="row">
