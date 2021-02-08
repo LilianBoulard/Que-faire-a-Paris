@@ -9,7 +9,7 @@ event_structure = {
     'title': str,
     'lead_text': str,  # Some kind of summary / interesting and quick information on the event.
     'description': str,
-    'tags': list,
+    'tags': str,
     'date_start': str,
     'date_end': str,
     'updated_at': str,
